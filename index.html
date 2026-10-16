@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konter AI Prompter Pro</title>
+  <meta name="description" content="Generator prompt gambar AI untuk konten konter pulsa: Midjourney, DALL-E, Stable Diffusion, dan Canva AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">⚡</span>
+        <span class="brand-name">Konter AI Prompter <em>Pro</em></span>
+      </div>
+      <p class="tagline">Racik prompt gambar presisi untuk sosmed konter pulsamu</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+
+    <!-- ============ KOLOM FORM ============ -->
+    <section class="col-form" aria-label="Pengaturan prompt">
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Mulai Cepat</h2>
+          <p>Pilih template siap pakai, lalu sesuaikan sesukamu.</p>
+        </div>
+        <div class="card-body">
+          <div id="presetBar" class="preset-bar"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">1</span> Platform AI Tujuan</h2>
+          <p>Format prompt otomatis menyesuaikan platform yang kamu pakai.</p></div>
+        <div class="card-body">
+          <div id="g-platform" class="segmented"></div>
+          <p id="platformNote" class="hint"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">2</span> Tema & Format Konten</h2></div>
+        <div class="card-body">
+          <h3 class="label">Tema utama</h3>
+          <div id="g-theme" class="chips chips-2"></div>
+          <h3 class="label">Ukuran / tujuan posting</h3>
+          <div id="g-format" class="chips chips-4"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">3</span> Gaya Visual</h2></div>
+        <div class="card-body">
+          <div id="g-style" class="chips chips-3"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">4</span> Karakter & Objek</h2>
+          <p>Boleh pilih lebih dari satu. Terlalu banyak objek bisa membuat gambar ramai, idealnya 2–4.</p></div>
+        <div class="card-body">
+          <div id="g-objects" class="chips chips-2"></div>
+          <p id="objectWarn" class="warn" hidden>Kamu memilih lebih dari 4 objek, hasil AI bisa jadi berantakan.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">5</span> Suasana & Komposisi</h2></div>
+        <div class="card-body">
+          <h3 class="label">Latar belakang</h3>
+          <div id="g-setting" class="chips chips-2"></div>
+          <div class="two-col">
+            <div>
+              <h3 class="label">Mood</h3>
+              <div id="g-mood" class="chips chips-1"></div>
+            </div>
+            <div>
+              <h3 class="label">Palet warna</h3>
+              <div id="g-palette" class="chips chips-1"></div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div>
+              <h3 class="label">Pencahayaan</h3>
+              <div id="g-light" class="chips chips-1"></div>
+            </div>
+            <div>
+              <h3 class="label">Sudut & jarak kamera</h3>
+              <div id="g-comp" class="chips chips-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">6</span> Ruang Teks & Teks di Gambar</h2></div>
+        <div class="card-body">
+          <h3 class="label">Sisakan area kosong untuk teks (disarankan)</h3>
+          <div id="g-copy" class="segmented segmented-wrap"></div>
+
+          <label class="switch">
+            <input type="checkbox" id="withText">
+            <span class="slider"></span>
+            <span class="switch-text">Minta AI menulis teks langsung di gambar</span>
+          </label>
+          <p class="hint">AI sering salah mengeja teks. Cara paling aman: kosongkan ruang teks di atas, lalu tambahkan tulisan lewat Canva.</p>
+
+          <div id="textFields" class="text-fields" hidden>
+            <label class="field">
+              <span>Nama konter</span>
+              <input type="text" id="brandName" maxlength="30" placeholder="contoh: Berkah Cell">
+            </label>
+            <label class="field">
+              <span>Headline singkat (maks. 5 kata)</span>
+              <input type="text" id="headline" maxlength="40" placeholder="contoh: Kuota Murah Hari Ini">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2><span class="num">7</span> Kualitas, Pengecualian & Detail</h2></div>
+        <div class="card-body">
+          <h3 class="label">Tingkat detail</h3>
+          <div id="g-quality" class="segmented"></div>
+
+          <h3 class="label">Hindari (negative prompt)</h3>
+          <div id="g-negatives" class="chips chips-2 chips-compact"></div>
+
+          <label class="field">
+            <span>Hindari yang lain (opsional, bahasa Inggris)</span>
+            <input type="text" id="customNeg" placeholder="contoh: cluttered background, dark mood">
+          </label>
+
+          <label class="field">
+            <span>Detail tambahan (opsional)</span>
+            <textarea id="custom" rows="2" placeholder="Contoh: warna dominan kuning dan biru, ada banner promo di belakang, gaya logo startup"></textarea>
+          </label>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ KOLOM HASIL ============ -->
+    <aside class="col-result" aria-label="Hasil prompt">
+      <div class="result-card">
+        <div class="result-head">
+          <h2>Hasil Prompt</h2>
+          <span id="platformBadge" class="badge">Midjourney</span>
+        </div>
+
+        <div class="result-body">
+          <div class="result-block">
+            <div class="result-label-row">
+              <label for="outEn">Prompt utama (Inggris)</label>
+              <span id="counter" class="counter">0 kata</span>
+            </div>
+            <textarea id="outEn" readonly rows="9"></textarea>
+            <button type="button" id="copyMain" class="btn btn-primary">Salin Prompt</button>
+          </div>
+
+          <div class="result-block" id="negBlock">
+            <div class="result-label-row">
+              <label for="outNeg">Negative prompt</label>
+            </div>
+            <textarea id="outNeg" readonly rows="3"></textarea>
+            <button type="button" id="copyNeg" class="btn btn-ghost">Salin Negative Prompt</button>
+          </div>
+
+          <div class="result-block">
+            <div class="result-label-row"><label for="outId">Ringkasan (Indonesia)</label></div>
+            <textarea id="outId" readonly rows="6" class="muted"></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="saveBtn" class="btn btn-ghost">Simpan ke Riwayat</button>
+            <button type="button" id="randomBtn" class="btn btn-ghost">Acak</button>
+            <button type="button" id="resetBtn" class="btn btn-ghost">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tips-card">
+        <h3>Tips konten WA & TikTok</h3>
+        <ul>
+          <li>Status WA: pakai format <b>9:16</b>, sisakan ruang teks di atas.</li>
+          <li>Generate 3–4 versi, pilih yang paling bersih lalu tambah teks di Canva.</li>
+          <li>Posting konsisten minimal 1x sehari agar pelanggan ingat.</li>
+        </ul>
+      </div>
+
+      <div class="history-card">
+        <div class="history-head">
+          <h3>Riwayat</h3>
+          <button type="button" id="clearHistory" class="link-btn">Hapus semua</button>
+        </div>
+        <ul id="historyList" class="history-list"></ul>
+        <p id="historyEmpty" class="hint">Belum ada riwayat. Klik "Simpan ke Riwayat" untuk menyimpan racikanmu.</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer class="footer">
+    <p>Konter AI Prompter Pro · prompt disimpan di browsermu saja, tidak dikirim ke mana pun.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
